@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Office map</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2f68c0}a:hover{color:#1d4a90}
+.map *{box-sizing:border-box}
+.ab{position:absolute}
+.path{position:absolute;background-color:#e8d098;background-image:radial-gradient(circle at 6px 10px,#d0b070 0 2px,transparent 2.5px),radial-gradient(circle at 22px 26px,#f8e8b8 0 1.5px,transparent 2px);background-size:32px 32px;border-top:4px solid #b89858;border-bottom:4px solid #b89858}
+.vpath{border:none;border-left:4px solid #b89858;border-right:4px solid #b89858}
+.pod{position:absolute;top:24px;height:300px;border:4px solid #303030;background:#303030;box-shadow:0 8px 0 rgba(40,70,30,.35)}
+.wall{position:absolute;left:0;right:0;top:0;height:72px;background:repeating-linear-gradient(90deg,#f4e4c4 0 14px,#e6d2aa 14px 16px);border-bottom:8px solid #a07850}
+.wall::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--team)}
+.floor{position:absolute;left:0;right:0;top:72px;bottom:0}
+.wood{background-color:#e8b070;background-image:repeating-linear-gradient(0deg,transparent 0 22px,#c08048 22px 24px),repeating-linear-gradient(90deg,transparent 0 62px,#d09858 62px 64px)}
+.lwood{background-color:#f2cc92;background-image:repeating-linear-gradient(0deg,transparent 0 22px,#d0a060 22px 24px),repeating-linear-gradient(90deg,transparent 0 62px,#e0b478 62px 64px)}
+.tile{background-color:#f0f0f8;background-image:linear-gradient(#c8d0e0 2px,transparent 2px),linear-gradient(90deg,#c8d0e0 2px,transparent 2px);background-size:32px 32px}
+.carpet{background-color:#ecd494;background-image:radial-gradient(#d0b060 0 2px,transparent 2.5px);background-size:16px 16px}
+.shutter{position:absolute;left:0;right:0;top:72px;bottom:0;background:repeating-linear-gradient(180deg,#a0a8b8 0 12px,#788090 12px 14px)}
+.plate{position:absolute;left:14px;top:18px;display:flex;align-items:center;gap:10px;background:var(--team);color:#fff;font-weight:700;font-size:18px;letter-spacing:1px;padding:4px 10px;border:3px solid #282828;border-radius:4px;text-shadow:2px 2px 0 rgba(0,0,0,.35)}
+.cnt{background:#f8f8f8;color:#282828;text-shadow:none;font-size:14px;padding:0 6px;border-radius:3px}
+.win{position:absolute;top:12px;width:64px;height:44px;background:#a8d8f8;border:4px solid #f8f8f8;outline:3px solid #806040;background-image:linear-gradient(90deg,transparent 28px,#f8f8f8 28px 32px,transparent 32px),linear-gradient(transparent 18px,#f8f8f8 18px 22px,transparent 22px)}
+.board{position:absolute;top:12px;width:60px;height:42px;background:#c89858;border:4px solid #805830;background-image:linear-gradient(#f8f8f8,#f8f8f8),linear-gradient(#f8e078,#f8e078),linear-gradient(#f8a8a8,#f8a8a8);background-size:14px 12px,12px 14px,14px 10px;background-position:6px 6px,26px 4px,14px 22px;background-repeat:no-repeat}
+.clock{position:absolute;top:14px;width:36px;height:36px;border-radius:50%;background:#f8f8f8;border:4px solid #484848;background-image:linear-gradient(#282828,#282828),linear-gradient(#282828,#282828);background-size:2px 12px,10px 2px;background-position:13px 4px,13px 14px;background-repeat:no-repeat}
+.cubby{position:absolute;top:10px;width:72px;height:50px;background:#704828;border:3px solid #402818;background-image:linear-gradient(90deg,transparent 20px,#402818 20px 23px,transparent 23px 43px,#402818 43px 46px,transparent 46px),linear-gradient(transparent 20px,#402818 20px 23px,transparent 23px);box-shadow:inset 0 0 0 4px #f8f0d8}
+.chart{position:absolute;top:10px;width:64px;height:48px;background:#f8f8f8;border:3px solid #484848;background-image:linear-gradient(#48a848,#48a848),linear-gradient(#48a848,#48a848),linear-gradient(#48a848,#48a848),linear-gradient(#48a848,#48a848);background-size:8px 10px,8px 18px,8px 26px,8px 32px;background-position:6px 100%,20px 100%,34px 100%,48px 100%;background-repeat:no-repeat}
+.shelf{position:absolute;width:40px;height:64px;background:#805030;border:3px solid #402818;background-image:linear-gradient(90deg,#d84840 0 6px,#4878d0 6px 12px,#f0c040 12px 18px,#58a858 18px 24px,transparent 24px),linear-gradient(90deg,#8858b8 0 8px,#f0f0f0 8px 14px,#d84840 14px 20px,transparent 20px);background-size:100% 18px,100% 18px;background-position:4px 6px,4px 34px;background-repeat:no-repeat}
+.plant{position:absolute;width:36px;height:48px}
+.plant::before{content:"";position:absolute;left:2px;top:0;width:32px;height:30px;border-radius:50% 50% 40% 40%;background:#48a040;border:3px solid #205818;box-shadow:inset -6px -6px 0 #307828}
+.plant::after{content:"";position:absolute;left:8px;bottom:0;width:20px;height:18px;background:#c86838;border:3px solid #602818;border-radius:2px 2px 6px 6px}
+.mat{position:absolute;bottom:-4px;left:50%;width:72px;height:14px;margin-left:-36px;background:var(--team);border:3px solid #282828;border-bottom:none}
+.desks{position:absolute;left:20px;top:88px;display:grid;gap:8px 16px}
+.cell{position:relative;width:64px;height:82px}
+.desk{position:absolute;left:0;top:0;width:64px;height:60px;background:url(/_blob/900c6e37030cfdc85d19e73231f15f83) 0 0/64px 60px no-repeat;image-rendering:pixelated}
+.chair{position:absolute;left:18px;top:50px;width:28px;height:28px;background:url(/_blob/6575f509160e9d9de8fda2365a32b9e1) 0 0/28px 28px no-repeat;image-rendering:pixelated}
+.emote{position:absolute;left:36px;top:18px;z-index:5;min-width:24px;height:24px;padding:0 4px;background:#f8f8f8;border:3px solid #282828;border-radius:6px;font-weight:700;font-size:16px;line-height:18px;text-align:center;color:#d03030}
+.npc{position:absolute;width:32px;height:44px;z-index:3;background-repeat:no-repeat;background-size:128px 176px;background-position:0 0;image-rendering:pixelated}
+.npc::after{content:"";position:absolute;left:6px;bottom:-3px;width:20px;height:6px;border-radius:50%;background:rgba(0,0,0,.22)}
+.dn{background-position-y:0}.up{background-position-y:-44px}.lt{background-position-y:-88px}.rt{background-position-y:-132px}
+.walk{animation:walk .64s steps(4) infinite}
+@keyframes walk{from{background-position-x:0}to{background-position-x:-128px}}
+.cell .npc{left:16px;top:36px}
+.c1{background-image:url(/_blob/98eb248723d24874248b2b33a9d5aece)}.c2{background-image:url(/_blob/9ba7661a6a06585dfc8d52520248c992)}.c3{background-image:url(/_blob/99075fddb24391f305c73f9267ed67d3)}.c4{background-image:url(/_blob/9704812853a5c68960e38981e2640e80)}.c5{background-image:url(/_blob/bb1b7869c04c831c78751210cc056a1c)}.c6{background-image:url(/_blob/12842eefec73fcefecc984184d95724d)}.c7{background-image:url(/_blob/ded833106225380c2bf109f4c1d0ff56)}.c8{background-image:url(/_blob/0e27001d1afc9902a479c559b0c11ba3)}
+.tb{position:absolute;background:#f8f8f8;border:4px solid #404858;border-radius:12px;box-shadow:inset 0 0 0 4px #f8f8f8,inset 0 0 0 8px #78a0d0,0 6px 0 rgba(30,50,20,.35);padding:20px 26px;color:#404048;text-shadow:2px 2px 0 #d8d8d0}
+.tbt{font-size:22px;font-weight:700;margin:0 0 10px}
+.row{display:flex;justify-content:space-between;font-size:17px;margin-top:8px}
+.hp{display:flex;align-items:center;background:#484858;border-radius:6px;padding:4px 8px;margin-top:6px}
+.hpl{color:#f8d030;font-weight:700;font-size:13px;margin-right:8px;text-shadow:none;letter-spacing:1px}
+.hpbar{flex:1;height:12px;background:#f8f8f8;border:2px solid #282828;border-radius:4px;overflow:hidden}
+.hpfill{height:100%;background:#58d878;box-shadow:inset 0 -3px 0 #38a858}
+.arrow{display:inline-block;color:#d03030;text-shadow:none;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.case{position:absolute;background:#783828;border:4px solid #301810;border-radius:10px;padding:14px 18px;box-shadow:inset 0 0 0 3px #a04838,0 6px 0 rgba(30,50,20,.35);color:#f8e8c0}
+.slots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;background:#5a2418;border:3px solid #301810;border-radius:6px;padding:12px;margin-top:10px}
+.slot{height:44px;border-radius:50%;background:#4a1c12;box-shadow:inset 0 3px 0 #2a0c06;display:flex;align-items:center;justify-content:center}
+.badge{width:34px;height:34px;background:linear-gradient(135deg,#fff0a0,#f0b830 45%,#b07818);clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%)}
+.brain{position:absolute;width:160px}
+.bplate{background:#288850;color:#fff;font-weight:700;font-size:16px;text-align:center;padding:4px 0;margin:0 16px 6px;border:3px solid #282828;border-radius:4px;text-shadow:2px 2px 0 rgba(0,0,0,.35);letter-spacing:1px}
+.bsprite{position:relative;width:160px;height:144px;background:url(/_blob/3a944c725a893b0270b400e0190b95d5) 0 0/320px 144px no-repeat;image-rendering:pixelated;animation:leds 1.2s steps(1) infinite;filter:drop-shadow(0 6px 0 rgba(30,50,20,.35))}
+@keyframes leds{50%{background-position-x:-160px}}
+.bscr{position:absolute;left:44px;top:10px;width:72px;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#98f0b0;line-height:1}
+.tg{position:absolute;width:32px;height:24px;background:#3c8c30;clip-path:polygon(0 100%,6% 30%,18% 75%,30% 0,44% 75%,56% 18%,70% 75%,84% 6%,94% 70%,100% 100%);transform-origin:bottom center;animation:sway 1.2s steps(2) infinite}
+@keyframes sway{50%{transform:skewX(-8deg)}}
+.flower{position:absolute;width:12px;height:12px;border-radius:50%;background:#f8f8f8;box-shadow:0 0 0 2px #e05050;}
+.flower::after{content:"";position:absolute;left:4px;top:4px;width:4px;height:4px;background:#f8d030}
+.pond{position:absolute;background-color:#5890e0;background-image:linear-gradient(90deg,transparent 0 8px,#a8d0f8 8px 20px,transparent 20px),linear-gradient(90deg,transparent 0 30px,#a8d0f8 30px 42px,transparent 42px);background-size:48px 32px,64px 48px;background-position:0 10px,20px 30px;background-repeat:repeat-x;border:6px solid #e8d8a0;border-radius:28px;box-shadow:0 0 0 3px #b89858}
+.closed{position:absolute;left:50%;top:150px;transform:translateX(-50%);background:#f8f8f8;border:4px solid #404858;border-radius:8px;padding:8px 16px;text-align:center;color:#404048;font-weight:700;font-size:18px;box-shadow:0 4px 0 rgba(0,0,0,.3)}
+.lock{width:28px;height:22px;margin:8px auto 0;background:#f0c030;border:3px solid #604010;border-radius:3px;position:relative}
+.lock::before{content:"";position:absolute;left:3px;top:-16px;width:16px;height:14px;border:3px solid #604010;border-bottom:none;border-radius:9px 9px 0 0}
+.cloud{position:absolute;width:420px;height:150px;border-radius:50%;background:rgba(30,50,90,.10);z-index:8;pointer-events:none;animation:drift 50s linear infinite}
+@keyframes drift{from{translate:-200px 0}to{translate:400px 0}}
+.tint{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:9;mix-blend-mode:multiply}
+</style>
+</helmet>
+<div class="map" style="position: relative; width: 1344px; height: 1064px; overflow: hidden; font-family: 'Pixelify Sans', monospace; background-color: #88c868; background-image: radial-gradient(circle at 8px 8px, #70b050 0 2px, transparent 2.5px), radial-gradient(circle at 24px 22px, #a8dc88 0 2px, transparent 2.5px); background-size: 32px 32px">
+
+<div class="path" style="left: 16px; top: 328px; width: 1312px; height: 40px"></div>
+<div class="path" style="left: 16px; top: 596px; width: 1312px; height: 40px"></div>
+<div class="path vpath" style="left: 640px; top: 368px; width: 64px; height: 228px"></div>
+
+<div class="pod" style="left: 56px; width: 320px; --team: #c83830">
+<div class="floor wood"></div>
+<div class="wall">
+<div class="plate">BETA <span class="cnt">6</span></div>
+<div class="board" style="right: 92px"></div>
+<div class="win" style="right: 14px"></div>
+</div>
+<div class="desks" style="grid-template-columns: repeat(3, 64px)">
+<sc-for list="{{beta}}" as="d" hint-placeholder-count="6">
+<div class="cell">
+<div class="desk"></div>
+<sc-if value="{{d.on}}" hint-placeholder-val="{{true}}"><div class="npc up {{d.color}}"></div></sc-if>
+<sc-if value="{{d.off}}" hint-placeholder-val="{{false}}"><div class="chair"></div></sc-if>
+<sc-if value="{{d.hasEmote}}" hint-placeholder-val="{{false}}"><div class="emote">{{d.emote}}</div></sc-if>
+</div>
+</sc-for>
+</div>
+<div class="shelf" style="right: 14px; top: 96px"></div>
+<div class="plant" style="right: 16px; bottom: 20px"></div>
+<div class="mat"></div>
+</div>
+
+<div class="pod" style="left: 392px; width: 320px; --team: #288850">
+<div class="floor tile"></div>
+<div class="wall">
+<div class="plate">EMAILS <span class="cnt">5</span></div>
+<div class="clock" style="right: 100px"></div>
+<div class="cubby" style="right: 14px"></div>
+</div>
+<div class="desks" style="grid-template-columns: repeat(3, 64px)">
+<sc-for list="{{emails}}" as="d" hint-placeholder-count="6">
+<div class="cell">
+<div class="desk"></div>
+<sc-if value="{{d.on}}" hint-placeholder-val="{{true}}"><div class="npc up {{d.color}}"></div></sc-if>
+<sc-if value="{{d.off}}" hint-placeholder-val="{{false}}"><div class="chair"></div></sc-if>
+<sc-if value="{{d.hasEmote}}" hint-placeholder-val="{{false}}"><div class="emote">{{d.emote}}</div></sc-if>
+</div>
+</sc-for>
+</div>
+<div class="plant" style="right: 16px; top: 100px"></div>
+<div class="plant" style="right: 16px; bottom: 20px"></div>
+<div class="mat"></div>
+</div>
+
+<div class="pod" style="left: 728px; width: 560px; --team: #2f68c0">
+<div class="floor lwood"></div>
+<div class="wall">
+<div class="plate">ALPHA <span class="cnt">11</span></div>
+<div class="board" style="left: 220px"></div>
+<div class="win" style="right: 110px"></div>
+<div class="win" style="right: 20px"></div>
+</div>
+<div class="desks" style="grid-template-columns: repeat(6, 64px)">
+<sc-for list="{{alpha}}" as="d" hint-placeholder-count="12">
+<div class="cell">
+<div class="desk"></div>
+<sc-if value="{{d.on}}" hint-placeholder-val="{{true}}"><div class="npc up {{d.color}}"></div></sc-if>
+<sc-if value="{{d.off}}" hint-placeholder-val="{{false}}"><div class="chair"></div></sc-if>
+<sc-if value="{{d.hasEmote}}" hint-placeholder-val="{{false}}"><div class="emote">{{d.emote}}</div></sc-if>
+</div>
+</sc-for>
+</div>
+<div class="plant" style="right: 16px; top: 100px"></div>
+<div class="plant" style="right: 16px; bottom: 20px"></div>
+<div class="mat"></div>
+</div>
+
+<div class="tb" style="left: 40px; top: 392px; width: 380px; height: 184px; padding: 18px 26px">
+<div class="tbt">Office Spend</div>
+<div class="row" style="margin-top: 0"><span>Desks, this week</span><span>22%</span></div>
+<div class="hp"><span class="hpl">SPEND</span><div class="hpbar"><div class="hpfill" style="width: 22%"></div></div></div>
+<div class="row"><span>4.4M / 20M</span><span>Today 0 · 0 calls</span></div>
+<div class="row" style="color: #288850">Limit never hit</div>
+</div>
+
+<div class="brain" style="left: 592px; top: 380px">
+<div class="bplate">THE BRAIN</div>
+<div class="bsprite">
+<div class="bscr"><div style="font-size: 30px; font-weight: 700">34</div><div style="font-size: 12px; letter-spacing: 1px">notes</div></div>
+</div>
+</div>
+
+<div class="case" style="left: 924px; top: 392px; width: 380px; height: 184px">
+<div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; text-shadow: 2px 2px 0 #301810"><span>Roles Done</span><span>1</span></div>
+<div class="slots">
+<div class="slot"><div class="badge"></div></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
+<div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
+</div>
+</div>
+
+<div class="pond" style="left: 440px; top: 400px; width: 128px; height: 92px"></div>
+<div class="tg" style="left: 444px; top: 520px"></div>
+<div class="tg" style="left: 476px; top: 520px"></div>
+<div class="tg" style="left: 508px; top: 520px"></div>
+<div class="tg" style="left: 460px; top: 542px"></div>
+<div class="tg" style="left: 492px; top: 542px"></div>
+<div class="flower" style="left: 780px; top: 410px"></div>
+<div class="flower" style="left: 872px; top: 432px"></div>
+<div class="flower" style="left: 800px; top: 548px"></div>
+<div class="flower" style="left: 888px; top: 530px"></div>
+<div class="tg" style="left: 812px; top: 466px"></div>
+<div class="tg" style="left: 844px; top: 466px"></div>
+<div class="tg" style="left: 828px; top: 488px"></div>
+
+<div class="npc dn c3 walk" style="left: 140px; top: 322px"></div>
+<div class="npc rt c1 walk" style="left: 320px; top: 322px"></div>
+<div class="npc lt c5" style="left: 500px; top: 322px"></div>
+<div class="npc dn c2" style="left: 820px; top: 322px"></div>
+<div class="npc rt c6 walk" style="left: 1060px; top: 322px"></div>
+<div class="npc up c4" style="left: 1250px; top: 322px"></div>
+<div class="npc dn c7 walk" style="left: 656px; top: 560px"></div>
+<div class="npc rt c4" style="left: 556px; top: 512px"></div>
+<div class="npc lt c6" style="left: 756px; top: 512px"></div>
+<div class="emote" style="left: 770px; top: 486px">…</div>
+<div class="npc rt c7 walk" style="left: 80px; top: 590px"></div>
+<div class="npc dn c8" style="left: 250px; top: 590px"></div>
+<div class="npc lt c1" style="left: 440px; top: 590px"></div>
+<div class="npc dn c5" style="left: 1000px; top: 590px"></div>
+<div class="emote" style="left: 1016px; top: 564px">!</div>
+<div class="npc lt c2 walk" style="left: 1200px; top: 590px"></div>
+
+<div class="pod" style="left: 16px; top: 640px; width: 320px; --team: #94680a">
+<div class="floor carpet"></div>
+<div class="wall">
+<div class="plate">BIZ DEV <span class="cnt">6</span></div>
+<div class="board" style="right: 96px"></div>
+<div class="chart" style="right: 16px"></div>
+</div>
+<div class="desks" style="grid-template-columns: repeat(3, 64px)">
+<sc-for list="{{bizdev}}" as="d" hint-placeholder-count="6">
+<div class="cell">
+<div class="desk"></div>
+<sc-if value="{{d.on}}" hint-placeholder-val="{{true}}"><div class="npc up {{d.color}}"></div></sc-if>
+<sc-if value="{{d.off}}" hint-placeholder-val="{{false}}"><div class="chair"></div></sc-if>
+<sc-if value="{{d.hasEmote}}" hint-placeholder-val="{{false}}"><div class="emote">{{d.emote}}</div></sc-if>
+</div>
+</sc-for>
+</div>
+<div class="shelf" style="right: 14px; top: 96px"></div>
+<div class="plant" style="right: 16px; bottom: 20px"></div>
+<div class="mat"></div>
+</div>
+
+<div class="pod" style="left: 352px; top: 640px; width: 480px; --team: #6848a8">
+<div class="wall"><div class="plate">BLANK 1</div></div>
+<div class="shutter"></div>
+<div class="closed">Closed<div style="font-size: 13px; font-weight: 400">No chain · room for 10 desks</div><div class="lock"></div></div>
+</div>
+
+<div class="pod" style="left: 848px; top: 640px; width: 480px; --team: #3848a0">
+<div class="wall"><div class="plate">BLANK 2</div></div>
+<div class="shutter"></div>
+<div class="closed">Closed<div style="font-size: 13px; font-weight: 400">No chain · room for 10 desks</div><div class="lock"></div></div>
+</div>
+
+<sc-if value="{{clouds}}" hint-placeholder-val="{{true}}">
+<div class="cloud" style="left: 120px; top: 120px"></div>
+<div class="cloud" style="left: 640px; top: 700px; animation-delay: -20s"></div>
+</sc-if>
+
+<div class="tb" style="left: 16px; top: 960px; width: 1312px; height: 88px; display: flex; align-items: center; gap: 28px; padding: 0 32px; font-size: 20px">
+<span style="color: #2f68c0">{{timeLabel}}</span>
+<span style="color: #288850">Cloudy</span>
+<span style="flex: 1">All quiet. 1 role done · 34 notes in The Brain.</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="tint" style="background: {{tint}}"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"time":{"editor":"enum","options":["Day","Evening","Night"],"default":"Day"},"clouds":{"editor":"boolean","default":true},"$preview":{"width":1344,"height":1064}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const pal = ['c1','c2','c3','c4','c5','c6','c7','c8'];
+    const mk = (total, seated, off, emotes) => Array.from({ length: total }, (_, i) => {
+      const on = i < seated;
+      const e = emotes[i] || '';
+      return { on: on, off: !on, color: pal[(i + off) % 8], hasEmote: on && !!e, emote: e };
+    });
+    const time = this.props.time ?? 'Day';
+    const tints = { Day: 'transparent', Evening: 'rgba(240,130,60,0.22)', Night: 'rgba(40,50,120,0.45)' };
+    return {
+      beta: mk(6, 4, 0, { 1: '…' }),
+      emails: mk(6, 3, 3, { 0: '!' }),
+      alpha: mk(12, 9, 5, { 2: '…', 7: '♪' }),
+      bizdev: mk(6, 3, 2, {}),
+      tint: tints[time] || 'transparent',
+      clouds: this.props.clouds ?? true,
+      timeLabel: time
+    };
+  }
+}
+</script>
+</body>
+</html>

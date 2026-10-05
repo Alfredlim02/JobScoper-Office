@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprite and tile sheet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.sheet *{box-sizing:border-box}
+.spr{width:48px;height:66px;background-repeat:no-repeat;background-size:192px 264px;image-rendering:pixelated}
+.f0{background-position-x:0}.f1{background-position-x:-48px}.f2{background-position-x:-96px}.f3{background-position-x:-144px}
+.dn{background-position-y:0}.up{background-position-y:-66px}.lt{background-position-y:-132px}.rt{background-position-y:-198px}
+.walk{animation:walk .64s steps(4) infinite}
+@keyframes walk{from{background-position-x:0}to{background-position-x:-192px}}
+.c1{background-image:url(/_blob/98eb248723d24874248b2b33a9d5aece)}.c2{background-image:url(/_blob/9ba7661a6a06585dfc8d52520248c992)}.c3{background-image:url(/_blob/99075fddb24391f305c73f9267ed67d3)}.c4{background-image:url(/_blob/9704812853a5c68960e38981e2640e80)}.c5{background-image:url(/_blob/bb1b7869c04c831c78751210cc056a1c)}.c6{background-image:url(/_blob/12842eefec73fcefecc984184d95724d)}.c7{background-image:url(/_blob/ded833106225380c2bf109f4c1d0ff56)}.c8{background-image:url(/_blob/0e27001d1afc9902a479c559b0c11ba3)}
+.deskimg{width:128px;height:120px;background:url(/_blob/900c6e37030cfdc85d19e73231f15f83) 0 0/128px 120px no-repeat;image-rendering:pixelated}
+.chairimg{width:56px;height:56px;background:url(/_blob/6575f509160e9d9de8fda2365a32b9e1) 0 0/56px 56px no-repeat;image-rendering:pixelated}
+.emote{min-width:36px;height:36px;padding:0 6px;background:#f8f8f8;border:3px solid #282828;border-radius:8px;font-weight:700;font-size:22px;line-height:30px;text-align:center;color:#d03030}
+.sw{width:56px;height:56px;border:3px solid #282828}
+.lab{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;color:#585860}
+h2{margin:0 0 14px;font-size:20px;color:#303038}
+</style>
+</helmet>
+<div class="sheet" style="width: 960px; height: 720px; padding: 32px 40px; background: #f8f8f0; font-family: 'Pixelify Sans', monospace; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; gap: 56px">
+<div>
+<h2>Walk cycle · 16×21 px, shown at 3×</h2>
+<div style="display: grid; grid-template-columns: 56px repeat(4, 48px) 56px; gap: 10px 18px; align-items: center; font-size: 14px; color: #303038">
+<span></span><span class="lab">stand</span><span class="lab">step L</span><span class="lab">stand</span><span class="lab">step R</span><span class="lab">live</span>
+<span>Down</span><div class="spr c1 dn f0"></div><div class="spr c1 dn f1"></div><div class="spr c1 dn f2"></div><div class="spr c1 dn f3"></div><div class="spr c1 dn walk"></div>
+<span>Up</span><div class="spr c1 up f0"></div><div class="spr c1 up f1"></div><div class="spr c1 up f2"></div><div class="spr c1 up f3"></div><div class="spr c1 up walk"></div>
+<span>Left</span><div class="spr c1 lt f0"></div><div class="spr c1 lt f1"></div><div class="spr c1 lt f2"></div><div class="spr c1 lt f3"></div><div class="spr c1 lt walk"></div>
+<span>Right</span><div class="spr c1 rt f0"></div><div class="spr c1 rt f1"></div><div class="spr c1 rt f2"></div><div class="spr c1 rt f3"></div><div class="spr c1 rt walk"></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 28px">
+<div>
+<h2>Desk PC &amp; chair · shown at 4×</h2>
+<div style="display: flex; gap: 28px; align-items: flex-end"><div class="deskimg"></div><div class="chairimg"></div></div>
+</div>
+<div>
+<h2>Emotes</h2>
+<div style="display: flex; gap: 28px">
+<div class="lab"><div class="emote">!</div><span>job arrives</span></div>
+<div class="lab"><div class="emote">…</div><span>working</span></div>
+<div class="lab"><div class="emote">♪</div><span>role done</span></div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h2>Cast · 3 hair styles × palette swaps</h2>
+<div style="display: flex; gap: 22px">
+<div class="spr c1 dn walk"></div><div class="spr c2 dn walk"></div><div class="spr c3 dn walk"></div><div class="spr c4 dn walk"></div><div class="spr c5 dn walk"></div><div class="spr c6 dn walk"></div><div class="spr c7 dn walk"></div><div class="spr c8 dn walk"></div>
+</div>
+</div>
+<div>
+<h2>Tiles</h2>
+<div style="display: flex; gap: 20px">
+<div class="lab"><div class="sw" style="background-color: #88c868; background-image: radial-gradient(circle at 8px 8px, #70b050 0 2px, transparent 2.5px), radial-gradient(circle at 24px 22px, #a8dc88 0 2px, transparent 2.5px); background-size: 32px 32px"></div><span>grass</span></div>
+<div class="lab"><div class="sw" style="background-color: #e8d098; background-image: radial-gradient(circle at 6px 10px, #d0b070 0 2px, transparent 2.5px); background-size: 32px 32px; border-top: 6px solid #b89858; border-bottom: 6px solid #b89858"></div><span>path</span></div>
+<div class="lab"><div class="sw" style="background-color: #5890e0; background-image: linear-gradient(90deg, transparent 0 8px, #a8d0f8 8px 20px, transparent 20px); background-size: 48px 32px; background-position: 0 14px; background-repeat: repeat-x"></div><span>water</span></div>
+<div class="lab"><div class="sw" style="background-color: #e8b070; background-image: repeating-linear-gradient(0deg, transparent 0 22px, #c08048 22px 24px)"></div><span>wood</span></div>
+<div class="lab"><div class="sw" style="background-color: #f0f0f8; background-image: linear-gradient(#c8d0e0 2px, transparent 2px), linear-gradient(90deg, #c8d0e0 2px, transparent 2px); background-size: 32px 32px"></div><span>tile</span></div>
+<div class="lab"><div class="sw" style="background-color: #ecd494; background-image: radial-gradient(#d0b060 0 2px, transparent 2.5px); background-size: 16px 16px"></div><span>carpet</span></div>
+<div class="lab"><div class="sw" style="background: repeating-linear-gradient(180deg, #a0a8b8 0 12px, #788090 12px 14px)"></div><span>shutter</span></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":960,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
