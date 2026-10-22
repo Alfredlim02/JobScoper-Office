@@ -1,6 +1,6 @@
 # Leave tracker generator
 
-These scripts build **JobScoper Leave Tracker 2026–2027** (v2), which Alfred imports into his Google Sheet. Full context, rules and decisions are in `memory/projects/leave-tracker.md`.
+These scripts build **JobScoper Leave Tracker 2026–2027** (v2), which Alfred imports into his Google Sheet. Full context, rules and decisions are in `Claude memory - Leave Tracker/projects/leave-tracker.md`.
 
 | File | Purpose |
 |------|---------|

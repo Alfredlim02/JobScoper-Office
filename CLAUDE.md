@@ -1,4 +1,4 @@
-# Memory
+# Claude memory - Leave Tracker
 
 ## Me
 **Alfred** (Alfred Lim), People Solution Lead at JobScoper Sdn. Bhd. (recruitment firm, Petaling Jaya, Selangor, Malaysia). Owns HR admin incl. the team leave tracker. Only Alfred edits the tracker.
@@ -10,7 +10,7 @@
 | **Shamirah** | Talent Acquisition, joined 24 Aug 2026 |
 | **Zack** | Talent Acquisition, joining 16 Nov 2026 |
 | I-Leng, Sam | Former / never-joined staff, removed from tracker (Oct 2026) |
-→ Profiles: memory/people/
+→ Profiles: Claude memory - Leave Tracker/people/
 
 ## Terms
 | Term | Meaning |
@@ -21,14 +21,14 @@
 | **PH** | Public holiday (Selangor + national) |
 | **CF** | Carry-forward, max 6 AL days, expires end of next year |
 | **EA** | Employment Act 1955 (Malaysia), s.60E AL / s.60F MC |
-→ Full glossary: memory/glossary.md
+→ Full glossary: Claude memory - Leave Tracker/glossary.md
 
 ## Projects
 | Name | What |
 |------|------|
 | **Leave tracker** | Google Sheet "JobScoper Leave Tracker 2026–2027" (v2 live, Oct 2026) |
 | **JobScoper-Office** | This repo, office-themed sprite/design work |
-→ Details: memory/projects/leave-tracker.md, generator: tools/leave-tracker/
+→ Details: Claude memory - Leave Tracker/projects/leave-tracker.md, generator: tools/leave-tracker/
 
 ## Preferences
 - Ask clarifying questions before big changes; confirm before structural rebuilds.
