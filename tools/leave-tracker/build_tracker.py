@@ -245,7 +245,7 @@ title(sf, "Staff", "Add / remove people here only. Leavers: type Last Working Da
 header(sf, 4, ["Name", "Position", "Start Date", "Last Working Day\n(blank if active)", "Birthday",
                "BL date override\n(optional)", "Carry-Fwd into 2026\n(from 2025)", "Status\n(auto)", "Service\n(auto)", "Notes"])
 seed = [
-    ("Alfred", "People Solution Lead", date(2025, 6, 1), 1.5, "Carry-forward 1.5 days from 2025 (from old tracker)"),
+    ("Alfred", "People Solution Lead", date(2025, 6, 1), 0, "2025 carry-forward set to 0 by Alfred (28 Oct 2026)"),
     ("Shamirah", "Talent Acquisition", date(2026, 8, 24), 0, ""),
     ("Zack", "Talent Acquisition", date(2026, 11, 16), 0, "Joining 16 Nov 2026"),
 ]
